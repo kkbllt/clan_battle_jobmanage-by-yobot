@@ -115,12 +115,12 @@ class clanjob:
             bossid = ','.join(msgdata).split(',')
             joblist = dor.select(dor.team, dor.dmg).where(dor.group_id == context['group_id'],dor.bossid == bossid[0])
             username = context['sender'].get('card')
-            out_msg = f'>{username}'
+            out_msg = ''
             for s in dor.select().where((dor.group_id == context['group_id'])&(dor.bossid == bossid[0])):
                 msg = ('' if s.msg == None else s.msg)
                 out_msg += f'\n{s.jobid}|{s.team}|{s.dmg}|{msg}'
             if not out_msg == '':
-                return out_msg
+                return f'>{username}{out_msg}'
             return f'没有找到{bossid}的作业，赶紧写一点成为大佬吧。'
 
         def deldata(context):#删
