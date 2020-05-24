@@ -2,7 +2,7 @@
 功能基于yobot custom.py&jjc_consult.py代码进行编写
 '''
 
-import asyncio, re, time, random, string, os
+import asyncio, re, time, random, string, os, requests
 from typing import Any, Dict, Union
 from .clanjob_data import dor, logs
 from aiocqhttp.api import Api
