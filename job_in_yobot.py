@@ -77,7 +77,7 @@ class clanjob:
                 return f'队伍昵称输入有误,没有找到【{names}】'
 
         def setdata(context):#写作业
-            msgdata = re.findall(r'^写([ABCDabcd][1-5])的?作业([\s\S]*[^0-9])([0-9]*[wW万])(留言[\S]*)?',context['raw_message'])
+            msgdata = re.findall(r'^写([ABCDabcd][1-5])的?作业([\s\S]*[^0-9])([0-9]{1,4}[wW万])(留言[\S]*)?',context['raw_message'])
             try:
                 bossid,team,dmg,msg = ','.join(msgdata[0]).split(',')
                 #print (bossid,team,dmg,msg)
@@ -116,7 +116,7 @@ class clanjob:
             joblist = dor.select(dor.team, dor.dmg).where(dor.group_id == context['group_id'],dor.bossid == bossid[0])
             username = context['sender'].get('card')
             out_msg = ''
-            for s in dor.select().where((dor.group_id == context['group_id'])&(dor.bossid == bossid[0])):
+            for s in joblist:
                 msg = ('' if s.msg == None else s.msg)
                 out_msg += f'\n{s.jobid}|{s.team}|{s.dmg}|{msg}'
             if not out_msg == '':
