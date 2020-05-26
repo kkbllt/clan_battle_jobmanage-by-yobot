@@ -113,7 +113,7 @@ class clanjob:
         def getdata(context):#查作业
             msgdata = re.findall(r'^查([ABCDabcd][1-5])的?作业',context['raw_message'])
             bossid = ','.join(msgdata).split(',')
-            joblist = dor.select(dor.team, dor.dmg).where(dor.group_id == context['group_id'],dor.bossid == bossid[0])
+            joblist = dor.select(dor.team, dor.dmg, dor.jobid).where(dor.group_id == context['group_id'],dor.bossid == bossid[0])
             username = context['sender'].get('card')
             out_msg = ''
             for s in joblist:
