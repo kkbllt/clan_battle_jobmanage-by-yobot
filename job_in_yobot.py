@@ -62,21 +62,21 @@ class clanjob:
 
         def getunitintlist(msgdata):
             unitintlist = []
-            for nickname in msgdata.split():#处理nickname里附带了rank和星数据，转换为unitid
+            for nickname in msgdata.split():#处理nickname里附带了rank和星数据，转换为unitid。这导致了部分拼音简称无法被识别
                 nickname = re.match(r'^[\u4e00-\u9fa5]*[^a-z0-9]',nickname).group()
                 unitintlist.append(unitintout(nickname))
             try:
                 unitintlistcopy = unitintlist
                 unitintlist.sort()
                 return unitintlist
-            except:#排序的时候出现错误，未指定错误nama
+            except:#排序的时候出现错误，未指定错误name
                 names = ''
                 for s in unitintlistcopy:
                     if not isinstance(s,int):
                         names += f'{s} '
                 return f'队伍昵称输入有误,没有找到【{names}】'
 
-        def setdata(context):#写作业
+        def setdata(context):#写
             msgdata = re.findall(r'^写([ABCDabcd][1-5])的?作业([\s\S]*[^0-9])([0-9]{1,4}[wW万])(留言[\S]*)?',context['raw_message'])
             try:
                 bossid,team,dmg,msg = ','.join(msgdata[0]).split(',')
@@ -110,10 +110,10 @@ class clanjob:
                     )
                 return '作业写入'
 
-        def getdata(context):#查作业
+        def getdata(context):#查
             msgdata = re.findall(r'^查([ABCDabcd][1-5])的?作业',context['raw_message'])
             bossid = ','.join(msgdata).split(',')
-            joblist = dor.select(dor.team, dor.dmg, dor.jobid).where(dor.group_id == context['group_id'],dor.bossid == bossid[0])
+            joblist = dor.select(dor.team, dor.dmg, dor.jobid, dor.msg).where(dor.group_id == context['group_id'],dor.bossid == bossid[0])
             username = context['sender'].get('card')
             out_msg = ''
             for s in joblist:
